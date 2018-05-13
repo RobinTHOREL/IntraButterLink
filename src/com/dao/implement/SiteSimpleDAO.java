@@ -15,11 +15,13 @@ public class SiteSimpleDAO extends DAO<SiteSimple> {
         try {
 
             Statement s = this.connect.createStatement();
-            PreparedStatement pst = this.connect.prepareStatement("INSERT INTO site_simple(friendly_url, default_url, created_at, expire_date, is_secure, password) VALUES (?,?,?,?,?,?)");
+            PreparedStatement pst = this.connect.prepareStatement("INSERT INTO simple_site(friendly_url, default_url, created_at, expire_date, is_secure, password) VALUES (?,?,?,?,?,?)");
             pst.setString(1, siteSimple.getFriendly_url());
             pst.setString(2, siteSimple.getDefault_url());
-            pst.setDate(3, (Date) siteSimple.getCreated_at());
-            pst.setDate(4, (Date) siteSimple.getExpire_date());
+            java.sql.Date created_at = new java.sql.Date(siteSimple.getCreated_at().getTime());
+            pst.setDate(3, created_at);
+            java.sql.Date expired_at = new java.sql.Date(siteSimple.getExpire_date().getTime());
+            pst.setDate(4, expired_at);
             pst.setInt(5, siteSimple.getIs_secure());
             pst.setString(6, siteSimple.getPassword());
             return pst.executeUpdate() > 0;
