@@ -38,7 +38,7 @@ public class StatsDAO extends DAO<Stats> {
                         id,
                         rs.getDate("date_clic"),
                         rs.getString("country"),
-                        rs.getInt("id_site")
+                        rs.getInt("site_id")
                 );
         } catch (SQLException e) {
             e.printStackTrace();

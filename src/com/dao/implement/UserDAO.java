@@ -39,8 +39,7 @@ public class UserDAO extends DAO<User> {
                         rs.getString("email"),
                         rs.getString("firstname"),
                         rs.getString("lastname"),
-                        rs.getDate("created_at"),
-                        rs.getDate("updated_at")
+                        rs.getString("password")
                 );
         } catch (SQLException e) {
             e.printStackTrace();

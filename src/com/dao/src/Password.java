@@ -4,12 +4,12 @@ public class Password {
 
     private int id = 0;
     private String password = "";
-    private int idUser = 0;
+    private int idSite = 0;
 
-    public Password(int id, String password, int idUser) {
+    public Password(int id, String password, int idSite) {
         this.id = id;
         this.password = password;
-        this.idUser = idUser;
+        this.idSite = idSite;
     }
 
     public Password() {}
@@ -30,11 +30,11 @@ public class Password {
         this.password = password;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public int getIdSite() {
+        return idSite;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setIdSite(int idSite) {
+        this.idSite = idSite;
     }
 }

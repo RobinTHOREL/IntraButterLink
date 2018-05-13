@@ -29,7 +29,7 @@ public class ServletAuth extends HttpServlet {
             if (connection != null) {
                 System.out.println("Connexion OP");
                 Statement s = connection.createStatement();
-                PreparedStatement pst = connection.prepareStatement("select * from user where login=? and password=?");
+                PreparedStatement pst = connection.prepareStatement("select * from user where email=? and password=?");
                 pst.setString(1, login);
                 pst.setString(2, password);
                 ResultSet rs = pst.executeQuery();

@@ -7,13 +7,13 @@ public class Stats {
     private int id = 0;
     private Date date_clic = null;
     private String country = "";
-    private int id_site = 0;
+    private int site_id = 0;
 
-    public Stats(int id, Date date_clic, String country, int id_site) {
+    public Stats(int id, Date date_clic, String country, int site_id) {
         this.id = id;
         this.date_clic = date_clic;
         this.country = country;
-        this.id_site = id_site;
+        this.site_id = site_id;
     }
 
     public Stats() {}
@@ -42,11 +42,11 @@ public class Stats {
         this.country = country;
     }
 
-    public int getId_site() {
-        return id_site;
+    public int getSite_id() {
+        return site_id;
     }
 
-    public void setId_site(int id_site) {
-        this.id_site = id_site;
+    public void setSite_id(int id_site) {
+        this.site_id = id_site;
     }
 }

@@ -29,7 +29,7 @@ public class PasswordDAO extends DAO<Password> {
         try {
 
             Statement s = this.connect.createStatement();
-            PreparedStatement pst = this.connect.prepareStatement("select * from password where id=?");
+            PreparedStatement pst = this.connect.prepareStatement("select * from passwords where id=?");
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
 
@@ -37,7 +37,7 @@ public class PasswordDAO extends DAO<Password> {
                 password = new Password(
                         id,
                         rs.getString("password"),
-                        rs.getInt("id_user")
+                        rs.getInt("id_site")
                 );
         } catch (SQLException e) {
             e.printStackTrace();

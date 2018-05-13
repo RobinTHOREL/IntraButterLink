@@ -2,6 +2,7 @@ package com.dao.implement;
 
 import com.dao.DAO;
 import com.dao.src.SiteUser;
+import com.dao.src.User;
 
 import java.sql.*;
 
@@ -36,11 +37,9 @@ public class SiteUserDAO extends DAO<SiteUser> {
             if(rs.first())
                 siteUser = new SiteUser(
                         id,
-                        rs.getInt("clic_counter"),
+                        rs.getInt("nb_traffic"),
                         rs.getBoolean("captcha"),
                         rs.getInt("max_clic"),
-                        rs.getDate("created_at"),
-                        rs.getDate("updated_at"),
                         rs.getInt("id_simple_site"),
                         rs.getInt("id_user")
                 );
@@ -49,5 +48,4 @@ public class SiteUserDAO extends DAO<SiteUser> {
         }
         return siteUser;
     }
-
 }
