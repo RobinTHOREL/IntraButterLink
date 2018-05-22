@@ -94,11 +94,11 @@
         <div class="card-panel ">
             <h3 class="center">Raccourcir une URL</h3>
             <div class="row">
-                <form class="col s12">
+                <form class="col s12" action="/generate" method="post">
                     <div class="row">
                         <div class="input-field col s10 offset-s1" style="margin-top: 70px;">
                             <i class="mdi-communication-email prefix"></i>
-                            <input id="url" type="text" class="validate">
+                            <input id="url" type="text" name="url" class="validate">
                             <label for="url">URL à raccourcir</label>
                         </div>
                     </div>
@@ -106,8 +106,7 @@
                         <div class="col s8 m8 offset-s2 offset-m2">
                             <p>
                                 <label>
-                                    <input type="checkbox" class="filled-in" />
-                                    <span>Sécuriser avec un mot de passe</span>
+                                    <input type="text" class="filled-in" name="password" placeholder="password"/>
                                 </label>
                             </p>
 <%
@@ -117,22 +116,20 @@
 %>
                             <p>
                                 <label>
-                                    <input type="checkbox" class="filled-in" />
+                                    <input type="checkbox" name="captcha" class="filled-in" />
                                     <span >Captcha</span>
                                 </label>
                             </p>
 
                             <p>
                                 <label>
-                                    <input type="checkbox" class="filled-in" />
-                                    <span>Limite de validité</span>
+                                    <input type="date" name="expire_date" class="filled-in" placeholder="date d'expiration"/>
                                 </label>
                             </p>
 
                             <p>
                                 <label>
-                                    <input type="checkbox" class="filled-in" />
-                                    <span>Limite de clics</span>
+                                    <input type="text" name="max_clics" class="filled-in" placeholder="limite de clics" />
                                 </label>
                             </p>
 <%
@@ -144,9 +141,9 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <a href="index.html" class="btn waves-effect waves-light right">
+                            <button type="submit" class="btn waves-effect waves-light right">
                                 <h6>Raccourcir</h6>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </form>
