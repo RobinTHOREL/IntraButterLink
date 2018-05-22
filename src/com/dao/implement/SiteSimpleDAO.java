@@ -4,6 +4,7 @@ import com.dao.DAO;
 import com.dao.src.SiteSimple;
 
 import java.sql.*;
+import java.util.UUID;
 
 public class SiteSimpleDAO extends DAO<SiteSimple> {
 
@@ -16,7 +17,7 @@ public class SiteSimpleDAO extends DAO<SiteSimple> {
 
             Statement s = this.connect.createStatement();
             PreparedStatement pst = this.connect.prepareStatement("INSERT INTO simple_site(friendly_url, default_url, created_at, expire_date, is_secure, password) VALUES (?,?,?,?,?,?)");
-            pst.setString(1, siteSimple.getFriendly_url());
+            pst.setString(1, getFriendlyurlFromDefault());
             pst.setString(2, siteSimple.getDefault_url());
             java.sql.Date created_at = new java.sql.Date(siteSimple.getCreated_at().getTime());
             pst.setDate(3, created_at);
@@ -63,6 +64,13 @@ public class SiteSimpleDAO extends DAO<SiteSimple> {
             e.printStackTrace();
         }
         return siteSimple;
+    }
+
+    static String getFriendlyurlFromDefault() {
+
+        String uniqueID = UUID.randomUUID().toString();
+
+        return "http://localhost:3000/s/" + uniqueID;
     }
 
 }

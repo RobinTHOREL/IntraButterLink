@@ -95,6 +95,7 @@
             <h3 class="center">Raccourcir une URL</h3>
             <div class="row">
                 <form class="col s12" action="/generate" method="post">
+                    <input type="hidden" name="isLogged" value="<%= ( currentSession != null ) ? "1" : "0" %>">
                     <div class="row">
                         <div class="input-field col s10 offset-s1" style="margin-top: 70px;">
                             <i class="mdi-communication-email prefix"></i>

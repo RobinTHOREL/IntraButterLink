@@ -24,7 +24,9 @@ import java.util.Locale;
 @WebServlet(name = "ServletGenerate", urlPatterns = "/generate")
 public class ServletGenerate extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = request.getParameter("url");
+        String isLogged = request.getParameter("isLogged");
+        String default_url = request.getParameter("url");
+
         String expire_date_string = request.getParameter("expire_date");
         DateFormat format = new SimpleDateFormat("YYYY-mm-dd");
         Date expire_date = null;
@@ -33,13 +35,18 @@ public class ServletGenerate extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        int isSecure = 0;
         String password = request.getParameter("password");
+
+        if (password.length() > 0)
+            isSecure = 1;
+
         String max_clics = request.getParameter("max_clics");
         String captcha = request.getParameter("captcha");
         // System.out.println("captcha : " + captcha + "/ url : " + url + "/expire_date : " + expire_date + " /max clics :" + max_clics + " /password : " + password);
         DAO<SiteSimple> siteSimple = new SiteSimpleDAO(ConnectionConfiguration.getConnection(getServletContext().getInitParameter("db-url"), getServletContext().getInitParameter("db-user"),
                 getServletContext().getInitParameter("db-password")));
-        SiteSimple site = new SiteSimple( 0,url,url,0,expire_date,expire_date,password);
+        SiteSimple site = new SiteSimple( 0,"",default_url,isSecure ,expire_date,expire_date,password);
         if(siteSimple.create(site)){
             System.out.println("Success");
         }
