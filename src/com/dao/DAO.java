@@ -15,7 +15,7 @@ public abstract class DAO<T> {
      * @param obj
      * @return boolean
      */
-    public abstract boolean create(T obj);
+    public abstract int create(T obj);
 
     /**
      * Méthode pour effacer
@@ -33,9 +33,10 @@ public abstract class DAO<T> {
 
     /**
      * Méthode de recherche des informations
-     * @param id
+     * @param key
+     * @param value
      * @return T
      */
-    public abstract T find(int id);
+    public abstract T findByKey(String key, String value);
 }
 

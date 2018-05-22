@@ -12,11 +12,12 @@ public class SiteSimpleDAO extends DAO<SiteSimple> {
         super(conn);
     }
 
-    public boolean create(SiteSimple siteSimple) {
+    public int create(SiteSimple siteSimple) {
         try {
 
             Statement s = this.connect.createStatement();
-            PreparedStatement pst = this.connect.prepareStatement("INSERT INTO simple_site(friendly_url, default_url, created_at, expire_date, is_secure, password) VALUES (?,?,?,?,?,?)");
+            PreparedStatement pst = this.connect.prepareStatement("INSERT INTO simple_site(friendly_url, default_url, created_at, expire_date, is_secure, password) VALUES (?,?,?,?,?,?)",
+                    Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, getFriendlyurlFromDefault());
             pst.setString(2, siteSimple.getDefault_url());
             java.sql.Date created_at = new java.sql.Date(siteSimple.getCreated_at().getTime());
@@ -25,11 +26,24 @@ public class SiteSimpleDAO extends DAO<SiteSimple> {
             pst.setDate(4, expired_at);
             pst.setInt(5, siteSimple.getIs_secure());
             pst.setString(6, siteSimple.getPassword());
-            return pst.executeUpdate() > 0;
+            int affectedRows = pst.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating siteSimple failed, no rows affected.");
+            }
+            try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating siteSimple failed, no ID obtained.");
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 
     public boolean delete(SiteSimple obj) {
@@ -40,19 +54,19 @@ public class SiteSimpleDAO extends DAO<SiteSimple> {
         return false;
     }
 
-    public SiteSimple find(int id) {
+    public SiteSimple findByKey(String key, String value) {
         SiteSimple siteSimple = new SiteSimple();
 
         try {
 
             Statement s = this.connect.createStatement();
-            PreparedStatement pst = this.connect.prepareStatement("select * from site_simple where id=?");
-            pst.setInt(1, id);
+            PreparedStatement pst = this.connect.prepareStatement("select * from site_simple where "+ key +" = ?");
+            pst.setString(1, value);
             ResultSet rs = pst.executeQuery();
 
             if(rs.first())
                 siteSimple = new SiteSimple(
-                        id,
+                        rs.getInt("id"),
                         rs.getString("friendly_url"),
                         rs.getString("default_url"),
                         rs.getInt("is_secure"),

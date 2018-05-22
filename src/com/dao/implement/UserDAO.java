@@ -11,8 +11,8 @@ public class UserDAO extends DAO<User> {
         super(conn);
     }
 
-    public boolean create(User obj) {
-        return false;
+    public int create(User obj) {
+        return 0;
     }
 
     public boolean delete(User obj) {
@@ -23,19 +23,19 @@ public class UserDAO extends DAO<User> {
         return false;
     }
 
-    public User find(int id) {
+    public User findByKey(String key, String value) {
         User user = new User();
 
         try {
 
             Statement s = this.connect.createStatement();
-            PreparedStatement pst = this.connect.prepareStatement("select * from user where id=?");
-            pst.setInt(1, id);
+            PreparedStatement pst = this.connect.prepareStatement("select * from user where "+ key +" = ?");
+            pst.setString(1, value);
             ResultSet rs = pst.executeQuery();
 
             if(rs.first())
                 user = new User(
-                        id,
+                        rs.getInt("id"),
                         rs.getString("email"),
                         rs.getString("firstname"),
                         rs.getString("lastname"),

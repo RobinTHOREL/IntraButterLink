@@ -1,6 +1,10 @@
 import com.dao.DAO;
 import com.dao.implement.SiteSimpleDAO;
+import com.dao.implement.SiteUserDAO;
+import com.dao.implement.UserDAO;
 import com.dao.src.SiteSimple;
+import com.dao.src.SiteUser;
+import com.dao.src.User;
 import com.util.ConnectionConfiguration;
 
 import javax.servlet.ServletException;
@@ -23,13 +27,17 @@ import java.util.Locale;
 
 @WebServlet(name = "ServletGenerate", urlPatterns = "/generate")
 public class ServletGenerate extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String isLogged = request.getParameter("isLogged");
-        String default_url = request.getParameter("url");
 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //Get form data
+        String default_url = request.getParameter("url");
+        Boolean isLogged = Boolean.valueOf(request.getParameter("isLogged"));
         String expire_date_string = request.getParameter("expire_date");
         DateFormat format = new SimpleDateFormat("YYYY-mm-dd");
         Date expire_date = null;
+        int siteId;
+
         try {
             expire_date = format.parse(expire_date_string);
         } catch (ParseException e) {
@@ -41,17 +49,56 @@ public class ServletGenerate extends HttpServlet {
         if (password.length() > 0)
             isSecure = 1;
 
-        String max_clics = request.getParameter("max_clics");
+        int maxClics = Integer.parseInt(request.getParameter("max_clics"));
         String captcha = request.getParameter("captcha");
-        // System.out.println("captcha : " + captcha + "/ url : " + url + "/expire_date : " + expire_date + " /max clics :" + max_clics + " /password : " + password);
+
+        //DEBUG System.out.println("captcha : " + captcha);
+
+        //Init SiteSimple DAO
         DAO<SiteSimple> siteSimple = new SiteSimpleDAO(ConnectionConfiguration.getConnection(getServletContext().getInitParameter("db-url"), getServletContext().getInitParameter("db-user"),
                 getServletContext().getInitParameter("db-password")));
+
+        //Create siteSimple object with form data
         SiteSimple site = new SiteSimple( 0,"",default_url,isSecure ,expire_date,expire_date,password);
-        if(siteSimple.create(site)){
+        siteId = siteSimple.create(site);
+
+        if(siteId > 0){
             System.out.println("Success");
+
         }
         else {
             System.out.println("Failure");
+        }
+
+        boolean captchaStatus = false;
+
+        if(captcha.equals("On")){
+            System.out.println("Catpcha true");
+            captchaStatus = true;
+        }
+
+        //This part below only concerns the logged users
+        if(isLogged) {
+
+            //Récupération de la session
+            HttpSession session= request.getSession(true);
+
+            //Init DAO User
+            DAO<User> user = new UserDAO(ConnectionConfiguration.getConnection(getServletContext().getInitParameter("db-url"), getServletContext().getInitParameter("db-user"),
+                    getServletContext().getInitParameter("db-password")));
+
+            //Fetch current User
+            User currentUser = user.findByKey("email", (String) session.getAttribute("currentSessionUser"));
+
+            //Init SiteUser
+            DAO<SiteUser> siteUser = new SiteUserDAO(ConnectionConfiguration.getConnection(getServletContext().getInitParameter("db-url"), getServletContext().getInitParameter("db-user"),
+                    getServletContext().getInitParameter("db-password")));
+
+            //Create siteUser Object with form Data
+            SiteUser siteUserToCreate = new SiteUser(0, 0, captchaStatus, maxClics, siteId, currentUser.getId());
+
+            //Inserting the siteUser in DB
+            int userId = siteUser.create(siteUserToCreate);
         }
     }
 

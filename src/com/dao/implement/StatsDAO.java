@@ -11,8 +11,8 @@ public class StatsDAO extends DAO<Stats> {
         super(conn);
     }
 
-    public boolean create(Stats obj) {
-        return false;
+    public int create(Stats obj) {
+        return 0;
     }
 
     public boolean delete(Stats obj) {
@@ -23,19 +23,19 @@ public class StatsDAO extends DAO<Stats> {
         return false;
     }
 
-    public Stats find(int id) {
+    public Stats findByKey(String key, String value) {
         Stats stats = new Stats();
 
         try {
 
             Statement s = this.connect.createStatement();
-            PreparedStatement pst = this.connect.prepareStatement("select * from stats where id=?");
-            pst.setInt(1, id);
+            PreparedStatement pst = this.connect.prepareStatement("select * from user where "+ key +" = ?");
+            pst.setString(1, value);
             ResultSet rs = pst.executeQuery();
 
             if(rs.first())
                 stats = new Stats(
-                        id,
+                        rs.getInt("id"),
                         rs.getDate("date_clic"),
                         rs.getString("country"),
                         rs.getInt("site_id")

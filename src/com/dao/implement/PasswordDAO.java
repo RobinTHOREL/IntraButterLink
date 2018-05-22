@@ -11,8 +11,8 @@ public class PasswordDAO extends DAO<Password> {
         super(conn);
     }
 
-    public boolean create(Password obj) {
-        return false;
+    public int create(Password obj) {
+        return 0;
     }
 
     public boolean delete(Password obj) {
@@ -23,19 +23,19 @@ public class PasswordDAO extends DAO<Password> {
         return false;
     }
 
-    public Password find(int id) {
+    public Password findByKey(String key, String value) {
         Password password = new Password();
 
         try {
 
             Statement s = this.connect.createStatement();
-            PreparedStatement pst = this.connect.prepareStatement("select * from passwords where id=?");
-            pst.setInt(1, id);
+            PreparedStatement pst = this.connect.prepareStatement("select * from user where "+ key +" = ?");
+            pst.setString(1, value);
             ResultSet rs = pst.executeQuery();
 
             if(rs.first())
                 password = new Password(
-                        id,
+                        rs.getInt("id"),
                         rs.getString("password"),
                         rs.getInt("id_site")
                 );
