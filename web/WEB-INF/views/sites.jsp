@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>ButterLink - Welcome</title>
+    <title>ButterLink - Sites</title>
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -22,11 +22,12 @@
             <li><a href="/">Raccourcir</a></li>
 <%
     String currentSession = (String) session.getAttribute( "currentSessionUser" );
+    int currentId = (int) session.getAttribute( "currentSessionId" );
 
     if ( currentSession != null ) {
 
 %>
-            <li><a href="/links">Mes URLs</a></li>
+            <li><a href="/links" class="active">Mes URLs</a></li>
             <li><a href="/stats">Statistiques</a></li>
             <li><a href="/logout">Se déconnecter</a></li>
 
@@ -92,7 +93,7 @@
 <div class="row">
     <div class="col s10 m8 offset-s1 offset-m2" style="margin-top: 30px;">
         <div class="card-panel ">
-            <h3 class="center">Raccourcir une URL</h3>
+            <h3 class="center">Mes URLS (<%= currentId %>)</h3>
             <div class="row">
                 <form class="col s12" action="/generate" method="post">
                     <input type="hidden" name="isLogged" value="<%= ( currentSession != null ) ? "true" : "false" %>">
@@ -107,7 +108,7 @@
                         <div class="col s8 m8 offset-s2 offset-m2">
                             <p>
                                 <label>
-                                    <input type="password" class="filled-in" name="password" placeholder="password"/>
+                                    <input type="text" class="filled-in" name="password" placeholder="password"/>
                                 </label>
                             </p>
 <%

@@ -16,7 +16,7 @@
     </error-page>
     <context-param>
         <param-name>db-url</param-name>
-        <param-value>jdbc:mysql://localhost:3306/jee</param-value>
+        <param-value>jdbc:mysql://localhost:3306/butterlink</param-value>
     </context-param>
     <context-param>
         <param-name>db-user</param-name>

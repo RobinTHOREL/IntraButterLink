@@ -31,54 +31,50 @@ public class ServletGenerate extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         //Get form data
-        String default_url = request.getParameter("url");
         Boolean isLogged = Boolean.valueOf(request.getParameter("isLogged"));
-        String expire_date_string = request.getParameter("expire_date");
-        DateFormat format = new SimpleDateFormat("YYYY-mm-dd");
-        Date expire_date = null;
-        int siteId;
-
-        try {
-            expire_date = format.parse(expire_date_string);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         int isSecure = 0;
+        int siteId = 0;
+        String default_url = request.getParameter("url");
         String password = request.getParameter("password");
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
+
+
+        boolean captchaStatus = false;
 
         if (password.length() > 0)
             isSecure = 1;
-
-        int maxClics = Integer.parseInt(request.getParameter("max_clics"));
-        String captcha = request.getParameter("captcha");
-
-        //DEBUG System.out.println("captcha : " + captcha);
 
         //Init SiteSimple DAO
         DAO<SiteSimple> siteSimple = new SiteSimpleDAO(ConnectionConfiguration.getConnection(getServletContext().getInitParameter("db-url"), getServletContext().getInitParameter("db-user"),
                 getServletContext().getInitParameter("db-password")));
 
-        //Create siteSimple object with form data
-        SiteSimple site = new SiteSimple( 0,"",default_url,isSecure ,expire_date,expire_date,password);
-        siteId = siteSimple.create(site);
+        if(!isLogged) {
+            //Create siteSimple object with form data
+            //SiteSimple site = new SiteSimple( 0,"",default_url,isSecure ,dateFormat.format(date),new Date("15-01-1993"),password);
+        } else {
+            String expire_date_string = request.getParameter("expire_date");
+            DateFormat format = new SimpleDateFormat("YYYY-mm-dd");
+            Date expire_date = null;
 
-        if(siteId > 0){
-            System.out.println("Success");
+            try {
+                expire_date = format.parse(expire_date_string);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-        }
-        else {
-            System.out.println("Failure");
-        }
+            //Create siteSimple object with form data
+            SiteSimple site = new SiteSimple( 0,"",default_url,isSecure ,expire_date,expire_date,password);
+            siteId = siteSimple.create(site);
 
-        boolean captchaStatus = false;
+            int maxClics = Integer.parseInt(request.getParameter("max_clics"));
+            String captcha = request.getParameter("captcha");
+            if(captcha.equals("on")){
+                captchaStatus = true;
+            }
 
-        if(captcha.equals("On")){
-            System.out.println("Catpcha true");
-            captchaStatus = true;
-        }
-
-        //This part below only concerns the logged users
-        if(isLogged) {
 
             //Récupération de la session
             HttpSession session= request.getSession(true);
@@ -99,7 +95,10 @@ public class ServletGenerate extends HttpServlet {
 
             //Inserting the siteUser in DB
             int userId = siteUser.create(siteUserToCreate);
+
         }
+
+        response.sendRedirect("/sites");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
