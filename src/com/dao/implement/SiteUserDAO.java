@@ -56,7 +56,7 @@ public class SiteUserDAO extends DAO<SiteUser> {
 
             Statement s = this.connect.createStatement();
             PreparedStatement pst = this.connect.prepareStatement("select * from site_simple where "+ key +" = ?");
-            pst.setString(1, key);
+            pst.setString(1, value);
             ResultSet rs = pst.executeQuery();
 
             if(rs.first())
@@ -73,4 +73,5 @@ public class SiteUserDAO extends DAO<SiteUser> {
         }
         return siteUser;
     }
+
 }

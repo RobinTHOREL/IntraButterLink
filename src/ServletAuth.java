@@ -36,7 +36,7 @@ public class ServletAuth extends HttpServlet {
                 if (rs.next()) {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("currentSessionUser", login);
-                    session.setAttribute("currentSessionId", rs.getInt("id"));
+                    session.setAttribute("currentSessionId", rs.getString("id"));
                     response.sendRedirect("/welcome");
                 }
                 else {

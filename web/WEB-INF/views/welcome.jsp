@@ -26,7 +26,7 @@
     if ( currentSession != null ) {
 
 %>
-            <li><a href="/links">Mes URLs</a></li>
+            <li><a href="/sites">Mes URLs</a></li>
             <li><a href="/stats">Statistiques</a></li>
             <li><a href="/logout">Se déconnecter</a></li>
 
@@ -71,7 +71,7 @@
     if ( currentSession != null ) {
 
 %>
-    <li><a href="/links"><i class="material-icons">call_split</i>Mes URLs</a></li>
+    <li><a href="/sites"><i class="material-icons">call_split</i>Mes URLs</a></li>
     <li><a href="/stats"><i class="material-icons">show_chart</i>Statistiques</a></li>
     <li><a href="/profile"><i class="material-icons">account_circle</i>Informations personnelles</a></li>
     <li><a href="/logout"><i class="material-icons">close</i>Se déconnecter</a></li>
