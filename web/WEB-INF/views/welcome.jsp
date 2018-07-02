@@ -92,7 +92,7 @@
 <div class="row">
     <div class="col s10 m8 offset-s1 offset-m2" style="margin-top: 30px;">
         <div class="card-panel ">
-            <h3 class="center">Raccourcir une URL</h3>
+            <h3 class="center">Raccourcir un URL</h3>
             <div class="row">
                 <form class="col s12" action="/generate" method="post">
                     <input type="hidden" name="isLogged" value="<%= ( currentSession != null ) ? "true" : "false" %>">

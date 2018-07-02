@@ -29,9 +29,9 @@ public class ServletAuth extends HttpServlet {
             if (connection != null) {
                 System.out.println("Connexion OP");
                 Statement s = connection.createStatement();
-                PreparedStatement pst = connection.prepareStatement("select * from user where email=? and password=?");
-                pst.setString(1, login);
-                pst.setString(2, password);
+                PreparedStatement pst = connection.prepareStatement("select * from user where password = ? and email = ?");
+                pst.setString(1, password);
+                pst.setString(2, login);
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()) {
                     HttpSession session = request.getSession(true);
@@ -40,6 +40,7 @@ public class ServletAuth extends HttpServlet {
                     response.sendRedirect("/welcome");
                 }
                 else {
+                    System.out.println("can't login");
                     response.sendRedirect("/login");
                 }
             }

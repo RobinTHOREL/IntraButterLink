@@ -9,16 +9,14 @@ public class SiteSimple {
     private String default_url = "";
     private int is_secure = 0;
     private String password = "";
-    private Date created_at = null;
     private Date expire_date = null;
 
-    public SiteSimple(int id, String friendly_url, String default_url, int is_secure, Date created_at, Date expire_date, String password) {
+    public SiteSimple(int id, String friendly_url, String default_url, int is_secure, Date expire_date, String password) {
         this.id = id;
         this.friendly_url = friendly_url;
         this.default_url = default_url;
         this.is_secure = is_secure;
         this.password = password;
-        this.created_at = created_at;
         this.expire_date = expire_date;
     }
 
@@ -62,14 +60,6 @@ public class SiteSimple {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Date getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
     }
 
     public Date getExpire_date() {
