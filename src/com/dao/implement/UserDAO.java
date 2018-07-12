@@ -1,15 +1,20 @@
 package com.dao.implement;
 
 import com.dao.DAO;
+import com.dao.src.SiteUser;
 import com.dao.src.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class UserDAO extends DAO<User> {
 
     public UserDAO(Connection conn){
         super(conn);
     }
+
+    public ArrayList<SiteUser> findSitesSimpleByKey(String key, String value) { return new ArrayList<SiteUser>(); }
+
 
     public int create(User obj) {
         return 0;

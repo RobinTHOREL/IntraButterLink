@@ -4,7 +4,13 @@
     <div class="col s10 m8 offset-s1 offset-m2" style="margin-top: 30px;">
         <div class="card-panel ">
             <h3 class="center">Mes URLS (<%= currentId %>)</h3>
+
+            <c:forEach items="${sites}" var="site">
+                ${site.getMax_clic()}
+            </c:forEach>
+            
             <div class="row">
+
                 <table>
                     <thead>
                     <tr>

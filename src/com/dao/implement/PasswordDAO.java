@@ -2,14 +2,18 @@ package com.dao.implement;
 
 import com.dao.DAO;
 import com.dao.src.Password;
+import com.dao.src.SiteUser;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class PasswordDAO extends DAO<Password> {
 
     public PasswordDAO(Connection conn){
         super(conn);
     }
+
+    public ArrayList<SiteUser> findSitesSimpleByKey(String key, String value) { return new ArrayList<SiteUser>(); }
 
     public int create(Password obj) {
         return 0;

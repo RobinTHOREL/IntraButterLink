@@ -1,6 +1,9 @@
 package com.dao;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+
+import com.dao.src.SiteUser;
 import com.util.ConnectionConfiguration;
 
 public abstract class DAO<T> {
@@ -38,5 +41,13 @@ public abstract class DAO<T> {
      * @return T
      */
     public abstract T findByKey(String key, String value);
+
+    /**
+     * Méthode de recherche des informations
+     * @param key
+     * @param value
+     * @return ArrayList<SiteUser>
+     */
+    public abstract ArrayList<SiteUser> findSitesSimpleByKey(String key, String value);
 }
 

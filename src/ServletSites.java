@@ -16,6 +16,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @WebServlet(name = "ServletSites", urlPatterns = "/sites")
 public class ServletSites extends HttpServlet {
@@ -33,12 +35,20 @@ public class ServletSites extends HttpServlet {
 
         System.out.println("session : " + currentSession + "  id : " + currentId);
 
-        DAO<SiteUser> sitesUser = new SiteUserDAO(ConnectionConfiguration.getConnection(getServletContext().getInitParameter("db-url"), getServletContext().getInitParameter("db-user"),
+        DAO<SiteUser> siteUser = new SiteUserDAO(ConnectionConfiguration.getConnection(getServletContext().getInitParameter("db-url"), getServletContext().getInitParameter("db-user"),
                 getServletContext().getInitParameter("db-password")));
 
-        sitesUser.findByKey("user_id", currentId);
+        ArrayList<SiteUser> sitesUser = new ArrayList<SiteUser>();
 
-        System.out.println(sitesUser.toString());
+        sitesUser = siteUser.findSitesSimpleByKey("user_id", currentId);
+
+        System.out.println(" servlet >>> " + Arrays.toString(sitesUser.toArray()));
+
+        for (int i = 0; i < sitesUser.size(); i++) {
+            System.out.println(sitesUser.get(i).getMax_clic());
+        }
+
+        request.setAttribute("sites", sitesUser);
 
         this.getServletContext().getRequestDispatcher( "/WEB-INF/views/sites.jsp" ).forward( request, response );
     }

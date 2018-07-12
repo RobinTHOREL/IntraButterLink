@@ -2,8 +2,10 @@ package com.dao.implement;
 
 import com.dao.DAO;
 import com.dao.src.SiteSimple;
+import com.dao.src.SiteUser;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class SiteSimpleDAO extends DAO<SiteSimple> {
@@ -11,6 +13,8 @@ public class SiteSimpleDAO extends DAO<SiteSimple> {
     public SiteSimpleDAO(Connection conn){
         super(conn);
     }
+
+    public ArrayList<SiteUser> findSitesSimpleByKey(String key, String value) { return new ArrayList<SiteUser>(); }
 
     public int create(SiteSimple siteSimple) {
         try {
