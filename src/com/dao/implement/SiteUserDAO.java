@@ -1,12 +1,14 @@
 package com.dao.implement;
 
 import com.dao.DAO;
+import com.dao.src.SiteSimple;
 import com.dao.src.SiteUser;
 import com.dao.src.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class SiteUserDAO extends DAO<SiteUser> {
 
@@ -54,9 +56,10 @@ public class SiteUserDAO extends DAO<SiteUser> {
 
     public SiteUser findByKey(String key, String value) { return new SiteUser(); }
 
-    public ArrayList<SiteUser> findSitesSimpleByKey(String key, String value) {
+    public HashMap<SiteUser, SiteSimple> findSitesSimpleByKey(String key, String value) {
         SiteUser siteUser = new SiteUser();
-        ArrayList<SiteUser> sitesUser = new ArrayList<SiteUser>();
+        SiteSimple siteSimple;
+        HashMap<SiteUser,SiteSimple> sitesUser = new HashMap<>();
 
         try {
 
@@ -90,13 +93,13 @@ public class SiteUserDAO extends DAO<SiteUser> {
             sqlInString += ")";
 
             System.out.println(">> " + sqlInString);
-            String test ="select * from site_user where id_simple_site in " + sqlInString;
+            String test ="select * from site_user,site_simple where id_simple_site in " + sqlInString +"and simple_site.id IN "+sqlInString;
             System.out.println(test);
 
                 try {
 
                     Statement statement = this.connect.createStatement();
-                    PreparedStatement prst = this.connect.prepareStatement("select * from site_user where id_simple_site in " + sqlInString);
+                    PreparedStatement prst = this.connect.prepareStatement("select * from site_user,simple_site where id_simple_site in " + sqlInString +"and simple_site.id IN "+sqlInString);
                     //prst.setString(1, sqlInString);
                     ResultSet rsF = prst.executeQuery();
 
@@ -109,13 +112,20 @@ public class SiteUserDAO extends DAO<SiteUser> {
                             rsF.getInt(5),
                             rsF.getInt(6)
                     );
-
-                    sitesUser.add(siteUser);
+                    siteSimple = new SiteSimple(
+                            rsF.getInt(7),
+                            rsF.getString(8),
+                            rsF.getString(9),
+                            rsF.getInt(12),
+                            rsF.getDate(11),
+                            rsF.getString(13)
+                );
+                    sitesUser.put(siteUser,siteSimple);
 
                 }
 
-                    System.out.println("SiteUserDAo" + Arrays.toString(sitesUser.toArray()));
-
+                    System.out.println("SiteUserDAo - site user :" + Arrays.toString(sitesUser.keySet().toArray()));
+                    System.out.println("SiteUserDAo - site simple :" + Arrays.toString(sitesUser.values().toArray()));
 
                     rsF.close();
 

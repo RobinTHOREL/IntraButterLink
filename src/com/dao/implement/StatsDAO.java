@@ -1,11 +1,13 @@
 package com.dao.implement;
 
 import com.dao.DAO;
+import com.dao.src.SiteSimple;
 import com.dao.src.SiteUser;
 import com.dao.src.Stats;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StatsDAO extends DAO<Stats> {
 
@@ -13,7 +15,7 @@ public class StatsDAO extends DAO<Stats> {
         super(conn);
     }
 
-    public ArrayList<SiteUser> findSitesSimpleByKey(String key, String value) { return new ArrayList<SiteUser>(); }
+    public HashMap<SiteUser,SiteSimple> findSitesSimpleByKey(String key, String value) { return new HashMap<>(); }
 
 
     public int create(Stats obj) {

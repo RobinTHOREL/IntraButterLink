@@ -2,7 +2,9 @@ package com.dao;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.dao.src.SiteSimple;
 import com.dao.src.SiteUser;
 import com.util.ConnectionConfiguration;
 
@@ -48,6 +50,6 @@ public abstract class DAO<T> {
      * @param value
      * @return ArrayList<SiteUser>
      */
-    public abstract ArrayList<SiteUser> findSitesSimpleByKey(String key, String value);
+    public abstract HashMap<SiteUser,SiteSimple> findSitesSimpleByKey(String key, String value);
 }
 

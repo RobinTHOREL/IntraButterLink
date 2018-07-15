@@ -16,8 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 @WebServlet(name = "ServletSites", urlPatterns = "/sites")
 public class ServletSites extends HttpServlet {
@@ -38,14 +37,20 @@ public class ServletSites extends HttpServlet {
         DAO<SiteUser> siteUser = new SiteUserDAO(ConnectionConfiguration.getConnection(getServletContext().getInitParameter("db-url"), getServletContext().getInitParameter("db-user"),
                 getServletContext().getInitParameter("db-password")));
 
-        ArrayList<SiteUser> sitesUser = new ArrayList<SiteUser>();
+        HashMap<SiteUser,SiteSimple> sitesUser = new HashMap<>();
 
         sitesUser = siteUser.findSitesSimpleByKey("user_id", currentId);
 
-        System.out.println(" servlet >>> " + Arrays.toString(sitesUser.toArray()));
+        System.out.println(" servlet >>> " + Arrays.toString(sitesUser.keySet().toArray()));
+        Set set = sitesUser.entrySet();
+        Iterator iterator = set.iterator();
 
-        for (int i = 0; i < sitesUser.size(); i++) {
-            System.out.println(sitesUser.get(i).getMax_clic());
+        while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            System.out.print("key is: "+ mentry.getKey() + " & Value is: ");
+            SiteSimple sitetest = (SiteSimple) mentry.getValue();
+            System.out.println(mentry.getValue());
+            System.out.println(" god : " + sitetest.getFriendly_url());
         }
 
         request.setAttribute("sites", sitesUser);

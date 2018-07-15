@@ -1,6 +1,6 @@
 <%@ include file="../layouts/head.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ page import="com.dao.src.SiteSimple" %>
 <div class="row">
     <div class="col s10 m8 offset-s1 offset-m2" style="margin-top: 30px;">
         <div class="card-panel ">
@@ -8,24 +8,31 @@
 
 
             <div class="row">
-
                 <table>
                     <thead>
                     <tr>
                         <th>Captcha</th>
                         <th>Max clic</th>
                         <th>Nb trafic</th>
-                        <th>id_simple_site</th>
+                        <th>Friendly url</th>
+                        <th>Default url</th>
+                        <th>Expire Date</th>
+                        <th>Secure?</th>
+                        <th>Password</th>
                     </tr>
                     </thead>
 
                     <tbody>
                     <c:forEach items="${sites}" var="site">
                         <tr>
-                            <td>${site.captcha}</td>
-                            <td>${site.max_clic}</td>
-                            <td>${site.nb_traffic}</td>
-                            <td>${site.id_simple_site}</td>
+                            <td>${site.key.captcha ? "Yes" : "No"}</td>
+                            <td>${site.key.max_clic}</td>
+                            <td>${site.key.nb_traffic}</td>
+                            <td>${site.value.friendly_url}</td>
+                            <td>${site.value.default_url}</td>
+                            <td>${site.value.expire_date}</td>
+                            <td>${site.value.is_secure == 1 ? "Yes" : "No"}</td>
+                            <td>${site.value.password}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -33,7 +40,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <%@ include file="../layouts/footer.jsp"%>

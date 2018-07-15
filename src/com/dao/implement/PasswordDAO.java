@@ -2,10 +2,12 @@ package com.dao.implement;
 
 import com.dao.DAO;
 import com.dao.src.Password;
+import com.dao.src.SiteSimple;
 import com.dao.src.SiteUser;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PasswordDAO extends DAO<Password> {
 
@@ -13,7 +15,7 @@ public class PasswordDAO extends DAO<Password> {
         super(conn);
     }
 
-    public ArrayList<SiteUser> findSitesSimpleByKey(String key, String value) { return new ArrayList<SiteUser>(); }
+    public HashMap<SiteUser,SiteSimple> findSitesSimpleByKey(String key, String value) { return new HashMap<>(); }
 
     public int create(Password obj) {
         return 0;
