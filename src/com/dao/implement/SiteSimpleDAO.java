@@ -86,7 +86,7 @@ public class SiteSimpleDAO extends DAO<SiteSimple> {
 
         String uniqueID = UUID.randomUUID().toString();
 
-        return "http://localhost:3000/s/" + uniqueID;
+        return "http://localhost:8080/s?id=" + uniqueID;
     }
 
 }

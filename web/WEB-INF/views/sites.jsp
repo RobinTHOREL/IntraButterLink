@@ -28,8 +28,8 @@
                             <td>${site.key.captcha ? "Yes" : "No"}</td>
                             <td>${site.key.max_clic}</td>
                             <td>${site.key.nb_traffic}</td>
-                            <td>${site.value.friendly_url}</td>
-                            <td>${site.value.default_url}</td>
+                            <td><a href="${site.value.friendly_url}"></a>${site.value.friendly_url}</td>
+                            <td><a href="${site.value.default_url}"></a>${site.value.default_url}</td>
                             <td>${site.value.expire_date}</td>
                             <td>${site.value.is_secure == 1 ? "Yes" : "No"}</td>
                             <td>${site.value.password}</td>
